@@ -4,5 +4,7 @@ services:
     restart: unless-stopped
     environment:
       PORT: 8000
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
     expose:
       - "8000"

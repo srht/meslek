@@ -24,12 +24,14 @@
   <main class="wrap">
     <section class="card" aria-labelledby="step1">
       <h2 id="step1"><span class="step">1</span> Deneyimini anlat</h2>
-      <p class="hint">CV'ni ya da birkaç cümlelik özetini yapıştır. Metin sunucuda saklanmaz.</p>
+      <p class="hint">CV'ni ya da birkaç cümlelik özetini yapıştır. Metin saklanmaz; yapay zekâ çıkarımı açıksa
+        yalnızca beceri çıkarmak için Google Gemini API'ye gönderilir. Kimlik ve iletişim bilgilerini çıkarmanı öneririz.</p>
       <textarea id="cv" rows="6" placeholder="Örn: 5 yıl Java ve Spring Boot ile backend geliştirme, PostgreSQL, REST API tasarımı, Kafka ile entegrasyon. Muhasebe süreçleri üzerine çalışan bir ekipteydim..."></textarea>
       <div class="row start">
         <button id="extract" class="btn">Becerileri çıkar</button>
         <button id="sample" class="btn ghost" type="button">Örnek metin</button>
       </div>
+      <p id="extract-info" class="hint info" hidden></p>
     </section>
 
     <section class="card" aria-labelledby="step2">

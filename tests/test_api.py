@@ -12,7 +12,9 @@ def test_index_served():
 
 
 def test_extract_then_recommend():
-    skills = client.post("/api/extract", json={"text": "Java, PostgreSQL, REST API, Git"}).json()
+    res = client.post("/api/extract", json={"text": "Java, PostgreSQL, REST API, Git"}).json()
+    assert res["method"] == "sozluk"
+    skills = res["skills"]
     assert {s["skill_id"] for s in skills} >= {"java", "sql", "rest_api", "git"}
     body = {"skills": [{"skill_id": s["skill_id"], "level": s["level"]} for s in skills]}
     data = client.post("/api/recommend", json=body).json()

@@ -72,15 +72,23 @@
     if (!text) return;
     const btn = $("#extract");
     btn.disabled = true;
+    btn.textContent = "Çıkarılıyor…";
     try {
-      const found = await api("/api/extract", { text });
+      const { skills: found, method, note } = await api("/api/extract", { text });
       for (const s of found) state.person.set(s.skill_id, s.level);
       renderSkills();
+      const info = $("#extract-info");
+      info.textContent = note
+        || (method === "gemini"
+          ? `${found.length} beceri yapay zekâ (Gemini) ile çıkarıldı.`
+          : `${found.length} beceri anahtar kelime eşleştirmesiyle çıkarıldı.`);
+      info.hidden = false;
       if (!found.length) alert("Metinde tanıdığımız bir beceri bulamadık; elle ekleyebilirsin.");
     } catch (e) {
       alert("Beceriler çıkarılamadı: " + e.message);
     } finally {
       btn.disabled = false;
+      btn.textContent = "Becerileri çıkar";
     }
   }
 

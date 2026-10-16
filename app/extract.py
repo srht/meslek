@@ -31,6 +31,8 @@ class ExtractedSkill:
     name: str
     level: int
     evidence: str
+    years: float | None = None
+    source: str = "sozluk"
 
 
 def _alias_pattern(alias: str) -> re.Pattern[str]:

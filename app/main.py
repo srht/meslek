@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+import os
 from dataclasses import asdict
 from pathlib import Path
 
@@ -10,12 +12,21 @@ from pydantic import BaseModel, Field
 
 from .extract import SkillExtractor
 from .graph import load_graph
+from .llm_extract import DEFAULT_MODEL, GeminiError, GeminiExtractor
 from .scoring import recommend
 
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 graph = load_graph()
 extractor = SkillExtractor(graph)
+log = logging.getLogger("meslek")
+
+# GEMINI_API_KEY varsa CV çıkarımı Gemini ile yapılır; hata olursa sözlük yedeği devreye girer.
+gemini = (
+    GeminiExtractor(graph, os.environ["GEMINI_API_KEY"], model=os.environ.get("GEMINI_MODEL", DEFAULT_MODEL))
+    if os.environ.get("GEMINI_API_KEY")
+    else None
+)
 
 app = FastAPI(title="Meslek Köprüsü", version="0.1.0")
 
@@ -37,7 +48,12 @@ class ExtractRequest(BaseModel):
 
 @app.get("/healthz", include_in_schema=False)
 def healthz():
-    return {"status": "ok", "skills": len(graph.skills), "roles": len(graph.roles)}
+    return {
+        "status": "ok",
+        "skills": len(graph.skills),
+        "roles": len(graph.roles),
+        "extractor": f"gemini:{gemini.model}" if gemini else "sozluk",
+    }
 
 
 @app.get("/api/skills")
@@ -86,7 +102,17 @@ def graph_export():
 
 @app.post("/api/extract")
 def extract_skills(req: ExtractRequest):
-    return [asdict(s) for s in extractor.extract(req.text)]
+    method, note = "sozluk", None
+    if gemini is not None:
+        try:
+            skills = gemini.extract(req.text)
+            method = "gemini"
+        except GeminiError as e:
+            log.warning("Gemini çıkarımı başarısız, sözlüğe dönülüyor: %s", e)
+            note = "Yapay zekâ çıkarımı şu an kullanılamıyor; anahtar kelime eşleştirmesi kullanıldı."
+    if method == "sozluk":
+        skills = extractor.extract(req.text)
+    return {"skills": [asdict(s) for s in skills], "method": method, "note": note}
 
 
 @app.post("/api/recommend")

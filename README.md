@@ -32,6 +32,20 @@ Dokploy'da:
 3. **Domains** → alan adını ekle, **Container Port: `8000`**, HTTPS açık (Let's Encrypt).
 4. **Deploy**. Sağlık kontrolü `GET /healthz` adresinde; Dockerfile'daki `HEALTHCHECK` bunu kullanır.
 
+### Gemini ile CV çıkarımı
+
+Dokploy'da **Environment** sekmesine ekle:
+
+```
+GEMINI_API_KEY=...            # https://aistudio.google.com/apikey
+GEMINI_MODEL=gemini-3.8-flash # isteğe bağlı, varsayılan bu
+```
+
+Anahtar yoksa ya da Gemini hata verirse (kota, ağ, geçersiz yanıt) sistem otomatik olarak
+anahtar kelime sözlüğüne döner. Hangi yöntemin etkin olduğu `GET /healthz` yanıtındaki
+`extractor` alanında görünür. CV metni Google'a gönderildiği için KVKK açısından aydınlatma
+metninde belirtilmeli.
+
 Portu değiştirmek istersen `PORT` ortam değişkenini ayarla ve domain'deki Container Port'u da aynı değere getir.
 Alternatif olarak Build Type `Docker Compose` seçilip `docker-compose.yml` kullanılabilir.
 
@@ -67,7 +81,7 @@ Her öneri gerekçe cümleleriyle döner (“Bu pozisyon için son 90 günde 140
 - `GET /api/skills`: beceri kataloğu
 - `GET /api/roles`: pozisyonlar ve gereksinimleri
 - `GET /api/graph`: görselleştirme için düğüm/kenar listesi
-- `POST /api/extract` `{text}`: CV metninden beceri ve tahmini seviye
+- `POST /api/extract` `{text}`: CV metninden beceri ve tahmini seviye; yanıt `{skills, method: "gemini"|"sozluk", note}`
 - `POST /api/recommend` `{skills:[{skill_id, level}], limit, include_ready}`
 
 ## Durum ve yol haritası
@@ -76,6 +90,6 @@ Her öneri gerekçe cümleleriyle döner (“Bu pozisyon için son 90 günde 140
 
 1. **ESCO içe aktarma:** Yazılım meslekleri ve becerilerini ESCO API/CSV'den çekip `esco_uri` ile eşlemek.
 2. **Talep katmanı:** İlanlardan LLM ile beceri ve ürün uzmanlığı çıkarmak. Kaynak olarak kurumsal ortaklık ya da kullanıcıların yüklediği ilanlar (site kullanım koşulları ve KVKK).
-3. **CV çıkarımı:** Takma ad sözlüğünü LLM tabanlı çıkarımla değiştirmek (`app/extract.py` arayüzü aynı kalır).
+3. **CV çıkarımı:** ~~LLM tabanlı çıkarım~~ Gemini ile eklendi (`app/llm_extract.py`); sırada PDF/DOCX yükleme var.
 4. **Geçiş sonucu verisi:** Kullanıcıların gerçek geçiş sonuçlarını toplayıp `RELATED_TO` ağırlıklarını ve skorları kalibre etmek.
 5. **Kalıcı graf deposu:** Veri büyüyünce Neo4j ya da PostgreSQL + pgvector'e taşımak.

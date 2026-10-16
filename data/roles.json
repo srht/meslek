@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "description": "Pozisyon düğümleri. essential/optional: GEREKTIRIR kenarları. market: talep katmanı (son 90 gün ilan sayısı, yıllık eğilim, tahmini aday havuzu).",
+    "source": "TEMSİLİ ÖRNEK VERİ. Pazar rakamları gerçek ilan taramasından gelmiyor; ilan toplama katmanı eklenene kadar yalnızca puanlama mantığını göstermek içindir.",
+    "esco": "esco_code alanları ESCO meslek grubu (ISCO-08) kodlarıdır; ürün uzmanlıkları ESCO'da ayrı meslek olarak yer almadığı için en yakın üst gruba bağlanmıştır."
+  },
+  "roles": [
+    {
+      "id": "backend_java",
+      "title": "Backend Geliştirici (Java)",
+      "esco_code": "2512",
+      "kind": "genel",
+      "essential": ["java", "sql", "rest_api", "git"],
+      "optional": ["docker", "integration_patterns", "testing", "cloud"],
+      "market": {"postings_90d": 620, "trend": 0.02, "candidates": 9000}
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend Geliştirici",
+      "esco_code": "2513",
+      "kind": "genel",
+      "essential": ["javascript", "typescript", "react", "html_css", "git"],
+      "optional": ["angular", "testing", "rest_api"],
+      "market": {"postings_90d": 540, "trend": -0.03, "candidates": 11000}
+    },
+    {
+      "id": "sap_abap",
+      "title": "SAP ABAP Geliştirici",
+      "esco_code": "2512",
+      "kind": "ürün",
+      "product": "SAP",
+      "essential": ["abap", "sql", "sap_modules", "erp_concepts"],
+      "optional": ["odata", "rest_api", "soap", "business_process"],
+      "market": {"postings_90d": 210, "trend": 0.12, "candidates": 900}
+    },
+    {
+      "id": "sap_cpi",
+      "title": "SAP Entegrasyon Uzmanı (CPI)",
+      "esco_code": "2514",
+      "kind": "ürün",
+      "product": "SAP",
+      "essential": ["sap_cpi", "integration_patterns", "rest_api", "soap"],
+      "optional": ["odata", "java", "sap_modules", "javascript"],
+      "market": {"postings_90d": 140, "trend": 0.25, "candidates": 350}
+    },
+    {
+      "id": "salesforce_dev",
+      "title": "Salesforce Geliştirici",
+      "esco_code": "2512",
+      "kind": "ürün",
+      "product": "Salesforce",
+      "essential": ["apex", "soql", "salesforce_platform", "crm_concepts"],
+      "optional": ["javascript", "rest_api", "git", "ci_cd"],
+      "market": {"postings_90d": 180, "trend": 0.10, "candidates": 700}
+    },
+    {
+      "id": "servicenow_dev",
+      "title": "ServiceNow Geliştirici",
+      "esco_code": "2512",
+      "kind": "ürün",
+      "product": "ServiceNow",
+      "essential": ["servicenow_glide", "javascript", "itsm", "rest_api"],
+      "optional": ["integration_patterns", "business_process", "sql"],
+      "market": {"postings_90d": 95, "trend": 0.18, "candidates": 260}
+    },
+    {
+      "id": "d365_fo_dev",
+      "title": "Dynamics 365 F&O Geliştirici (X++)",
+      "esco_code": "2512",
+      "kind": "ürün",
+      "product": "Microsoft Dynamics",
+      "essential": ["xpp", "csharp", "sql", "erp_concepts"],
+      "optional": ["ci_cd", "business_process", "power_platform"],
+      "market": {"postings_90d": 85, "trend": 0.15, "candidates": 220}
+    },
+    {
+      "id": "power_platform_dev",
+      "title": "Power Platform / Dataverse Geliştirici",
+      "esco_code": "2512",
+      "kind": "ürün",
+      "product": "Microsoft Dynamics",
+      "essential": ["power_platform", "dynamics_crm", "csharp", "javascript"],
+      "optional": ["rest_api", "sql", "crm_concepts", "business_process"],
+      "market": {"postings_90d": 120, "trend": 0.20, "candidates": 500}
+    },
+    {
+      "id": "mulesoft_dev",
+      "title": "MuleSoft Entegrasyon Geliştirici",
+      "esco_code": "2514",
+      "kind": "ürün",
+      "product": "MuleSoft",
+      "essential": ["mulesoft", "integration_patterns", "rest_api", "java"],
+      "optional": ["soap", "ci_cd", "cloud", "sql"],
+      "market": {"postings_90d": 70, "trend": 0.08, "candidates": 180}
+    },
+    {
+      "id": "integration_specialist",
+      "title": "Entegrasyon Uzmanı",
+      "esco_code": "2514",
+      "kind": "genel",
+      "essential": ["integration_patterns", "rest_api", "soap", "sql"],
+      "optional": ["java", "csharp", "python", "business_process", "docker"],
+      "market": {"postings_90d": 160, "trend": 0.06, "candidates": 1400}
+    },
+    {
+      "id": "data_engineer",
+      "title": "Veri Mühendisi",
+      "esco_code": "2521",
+      "kind": "genel",
+      "essential": ["python", "sql", "etl", "data_modeling"],
+      "optional": ["spark", "cloud", "docker", "git"],
+      "market": {"postings_90d": 310, "trend": 0.09, "candidates": 2600}
+    },
+    {
+      "id": "devops",
+      "title": "DevOps Mühendisi",
+      "esco_code": "2523",
+      "kind": "genel",
+      "essential": ["linux", "docker", "kubernetes", "ci_cd", "cloud"],
+      "optional": ["python", "git"],
+      "market": {"postings_90d": 380, "trend": 0.04, "candidates": 3200}
+    },
+    {
+      "id": "qa_automation",
+      "title": "Test Otomasyon Mühendisi",
+      "esco_code": "2519",
+      "kind": "genel",
+      "essential": ["testing", "java", "git", "rest_api"],
+      "optional": ["python", "javascript", "ci_cd", "sql"],
+      "market": {"postings_90d": 260, "trend": 0.0, "candidates": 3000}
+    }
+  ]
+}

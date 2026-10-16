@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meslek Köprüsü</title>
+  <meta name="description" content="Becerilerinle en az ek öğrenmeyle geçebileceğin, talep gören pozisyonları bul.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M4 24 Q16 4 28 24' fill='none' stroke='%232f5bd3' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Meslek Köprüsü · MVP</p>
+      <h1>Unvanın değil, becerilerin iş bulur.</h1>
+      <p class="lede">
+        “Developer” kalabalık, ama “SAP entegrasyonu bilen developer” az.
+        Becerilerini gir; en az ek öğrenmeyle geçebileceğin, talep gören pozisyonları
+        ve neyi öğrenmen gerektiğini gerekçesiyle gösterelim.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card" aria-labelledby="step1">
+      <h2 id="step1"><span class="step">1</span> Deneyimini anlat</h2>
+      <p class="hint">CV'ni ya da birkaç cümlelik özetini yapıştır. Metin sunucuda saklanmaz.</p>
+      <textarea id="cv" rows="6" placeholder="Örn: 5 yıl Java ve Spring Boot ile backend geliştirme, PostgreSQL, REST API tasarımı, Kafka ile entegrasyon. Muhasebe süreçleri üzerine çalışan bir ekipteydim..."></textarea>
+      <div class="row start">
+        <button id="extract" class="btn">Becerileri çıkar</button>
+        <button id="sample" class="btn ghost" type="button">Örnek metin</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="step2">
+      <h2 id="step2"><span class="step">2</span> Becerilerini ve seviyeni düzelt</h2>
+      <p class="hint">Çıkarılan seviyeler tahmindir. “SQL biliyorum” ikili değil; seviyeyi sen belirle.</p>
+      <div class="add-row">
+        <input id="skill-search" list="skill-options" placeholder="Beceri ekle (örn. Docker)" autocomplete="off">
+        <datalist id="skill-options"></datalist>
+        <button id="add-skill" class="btn ghost" type="button">Ekle</button>
+      </div>
+      <ul id="skills" class="skill-list" aria-live="polite"></ul>
+      <p id="skills-empty" class="empty">Henüz beceri yok.</p>
+      <div class="row">
+        <label class="toggle"><input type="checkbox" id="hide-ready"> Zaten hazır olduğum pozisyonları gizle</label>
+        <button id="recommend" class="btn" disabled>Önerileri göster</button>
+      </div>
+    </section>
+
+    <section id="results-section" class="results" hidden aria-labelledby="step3">
+      <h2 id="step3"><span class="step">3</span> Sana en yakın pozisyonlar</h2>
+      <p class="notice">
+        Pazar rakamları şimdilik <strong>temsili örnek veridir</strong>; gerçek ilan toplama katmanı
+        eklenene kadar puanlama mantığını göstermek içindir.
+      </p>
+      <div id="results"></div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <details>
+      <summary>Puan nasıl hesaplanıyor?</summary>
+      <ul>
+        <li><strong>Örtüşme (%40):</strong> Pozisyonun temel (ağırlık 1) ve isteğe bağlı (ağırlık 0,4) becerilerinden ne kadarını karşıladığın. Sahip olmadığın beceriye, grafta komşu bir beceriden (ör. Java → Apex) indirimli aktarım kredisi verilir.</li>
+        <li><strong>Hazırlık (%25):</strong> Eksik temel becerileri kapatmak için tahmini hafta; 40 hafta ve üstü sıfır puan.</li>
+        <li><strong>Talep (%20):</strong> Son 90 gündeki ilan sayısı (log ölçek) ve yıllık eğilim.</li>
+        <li><strong>Fırsat (%15):</strong> İlan başına düşen aday sayısı; niş ürün uzmanlıkları burada öne çıkar.</li>
+      </ul>
+    </details>
+  </footer>
+
+  <template id="result-tpl">
+    <article class="result">
+      <header class="result-head">
+        <div>
+          <h3 class="r-title"></h3>
+          <p class="r-tags"></p>
+        </div>
+        <div class="r-score" aria-label="Toplam puan"><span></span><small>/100</small></div>
+      </header>
+      <dl class="metrics"></dl>
+      <ul class="reasons"></ul>
+      <div class="chips"></div>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

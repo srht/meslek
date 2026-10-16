@@ -18,6 +18,23 @@ uvicorn app.main:app --reload
 pytest
 ```
 
+## Docker / Dokploy
+
+```bash
+docker build -t meslek .
+docker run -p 8000:8000 meslek
+```
+
+Dokploy'da:
+
+1. **Create Application** → Provider: GitHub, repo `srht/meslek`, istediğin dal.
+2. **Build Type: Dockerfile** (Docker File: `Dockerfile`, Build Path: `/`).
+3. **Domains** → alan adını ekle, **Container Port: `8000`**, HTTPS açık (Let's Encrypt).
+4. **Deploy**. Sağlık kontrolü `GET /healthz` adresinde; Dockerfile'daki `HEALTHCHECK` bunu kullanır.
+
+Portu değiştirmek istersen `PORT` ortam değişkenini ayarla ve domain'deki Container Port'u da aynı değere getir.
+Alternatif olarak Build Type `Docker Compose` seçilip `docker-compose.yml` kullanılabilir.
+
 ## Graf şeması
 
 | Düğüm | Açıklama |

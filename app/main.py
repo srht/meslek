@@ -35,6 +35,11 @@ class ExtractRequest(BaseModel):
     text: str = Field(..., max_length=50_000)
 
 
+@app.get("/healthz", include_in_schema=False)
+def healthz():
+    return {"status": "ok", "skills": len(graph.skills), "roles": len(graph.roles)}
+
+
 @app.get("/api/skills")
 def list_skills():
     return [

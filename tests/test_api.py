@@ -29,3 +29,7 @@ def test_recommend_validates_level():
 def test_graph_export():
     g = client.get("/api/graph").json()
     assert {e["type"] for e in g["edges"]} == {"REQUIRES", "RELATED_TO"}
+
+
+def test_healthz():
+    assert client.get("/healthz").json()["status"] == "ok"
